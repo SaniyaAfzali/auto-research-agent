@@ -1,136 +1,237 @@
-                                                        **🔎 AutoResearch Agent  **
-                               ** Autonomous Multi-Step AI Research System using LangGraph + Groq + Streamlit**
-**Live Demo**
-
-Deployed App:
-👉 https://auto-research-agent-bqvkebxds9ubjbj6clymu7.streamlit.app/
+                                             
 
 
-**Project Overview**
+# 🔎 Auto Research Agent
 
-The AutoResearch Agent is an autonomous AI system that performs structured, multi-step research on user queries.
-Unlike a simple chatbot, this agent:
+---
 
-Breaks complex questions into sub-tasks
+## 🚀 Overview
 
-Uses external tools (search) intelligently
+Auto Research Agent is a multi-step autonomous AI research system that performs structured research, self-critique, refinement, and synthesis to generate high-quality research reports.
 
-Evaluates its own output
+The system simulates a team of AI agents working together:
 
-Iterates when necessary
+- 🧠 Researcher – Gathers detailed information
+- 🧐 Critic – Evaluates quality and completeness
+- 🧩 Synthesizer – Generates final structured report
+- 📊 Confidence Estimator – Calculates reliability score
 
-Synthesizes information into a final structured answer
+Built using:
 
-Outputs a confidence score
+- Streamlit (UI)
+- LangGraph (Agent Workflow Orchestration)
+- LangChain (LLM Abstraction)
+- Groq LLM (LLaMA 3.3 70B)
+- Python
 
-The system is built using LangGraph orchestration with a reasoning loop (Planner → Researcher → Critic → Synthesizer).
+---
 
-**⚙️ Tech Stack**
+# 🏗️ Architecture
 
-Orchestration: LangGraph
+The system follows a cyclic multi-agent workflow:
 
-LLM Provider: Groq (LLaMA 3.3 70B)
+```
+User Query
+     ↓
+Researcher Node
+     ↓
+Critic Node
+     ↓
+(If not satisfied → Research Again)
+     ↓
+Synthesizer Node
+     ↓
+Confidence Score
+     ↓
+Final Output
+```
 
-UI: Streamlit
+The Critic ensures quality control and prevents weak outputs.
 
-Language: Python 3.10+
+---
 
-Version Control: Git + GitHub
+# 📂 Project Structure
 
-**🔄 Multi-Step Reasoning Pattern**
+```
+Auto-research-agent/
+│
+├── app.py
+├── requirements.txt
+│
+└── backend/
+    ├── graph.py
+    ├── state.py
+    ├── llm.py
+    │
+    └── nodes/
+        ├── researcher.py
+        ├── critic.py
+        └── synthesizer.py
+```
 
-The agent follows a Plan-and-Execute + Self-Critique loop:
+---
 
-1️⃣ Planner
+# ⚙️ How It Works
 
-Breaks main query into sub-questions.
+## 1️⃣ Researcher Node
+- Expands the query
+- Generates detailed research content
+- Produces structured findings
 
-2️⃣ Researcher
+## 2️⃣ Critic Node
+- Evaluates completeness
+- Checks logical consistency
+- Decides:
+  - ✅ Continue to synthesis
+  - 🔁 Loop back for more research
 
-Generates research content.
+## 3️⃣ Synthesizer Node
+- Creates final well-formatted report
+- Removes redundancy
+- Structures sections clearly
 
-Uses LLM (and optional search tool).
+## 4️⃣ Confidence Estimator
+- Outputs a score between 0.0 – 1.0
+- Displayed as a visual progress bar in UI
 
-3️⃣ Critic
+---
 
-Evaluates:
+# 🛡️ Hallucination Risk & Mitigation
 
-Completeness
+## ❗ Hallucination Risks
 
-Logical consistency
+Since the system relies on LLMs, it may:
+- Generate fabricated statistics
+- Cite non-existent sources
+- Provide outdated information
 
-Missing information
+## ✅ Mitigation Strategies
 
-If incomplete → loops back to Researcher.
+- Multi-step validation (Research → Critic → Refinement)
+- Iterative correction loop
+- Structured prompts for clarity
+- Confidence scoring mechanism
+- Loop limit to prevent runaway cycles
 
-4️⃣ Synthesizer
+---
 
-Produces:
+# 🔁 Infinite Loop Prevention
 
-Final structured answer
+To prevent the Research-Critic loop from running forever:
 
-Confidence score (0–1)
+- Maximum iteration cap implemented
+- Critic returns structured decision (PASS / REFINE)
+- Graph terminates after defined attempts
+- Fallback final synthesis if loop limit reached
 
+This guarantees bounded execution.
 
-**🏗️ System Architecture**
+---
 
-<img width="344" height="722" alt="image" src="https://github.com/user-attachments/assets/91e10943-775a-4762-b5e3-29404d85788e" />
+# 🎨 User Interface
 
+Built with Streamlit:
 
+- Two-column layout:
+  - Left: Thinking / Agent Logs
+  - Right: Final Report
+- Confidence score shown as progress bar
+- Clean wide layout
+- Real-time execution display
 
-**⚙️ Installation & Setup**
+Run locally:
 
-1️⃣ Clone Repository
-
-git clone https://github.com/SaniyaAfzali/auto-research-agent.git
-
-cd auto-research-agent
-
-2️⃣ Create Virtual Environment
-
-python -m venv venv
-
-venv\Scripts\activate   # Windows
-
-3️⃣ Install Dependencies
-
-pip install -r requirements.txt
-
-4️⃣ Set Environment Variables
-
-Create a .env file:
-
-GROQ_API_KEY=your_key_here
-
-TAVILY_API_KEY=your_key_here
-
-5️⃣ Run Application
+```
 streamlit run app.py
+```
 
-**📌 Submission Components Included**
+---
 
-✔ Full Source Code
+# 🧪 Installation
 
-✔ LangGraph-based Orchestration
+## 1️⃣ Clone Repository
 
-✔ Thinking Log Visualization
+```
+git clone https://github.com/SaniyaAfzali/auto-research-agent.git
+cd auto-research-agent
+```
 
-✔ Confidence Score
+## 2️⃣ Create Virtual Environment
 
-✔ README with Architecture
+```
+python -m venv venv
+venv\Scripts\activate   # Windows
+```
 
-✔ Deployment Ready (Streamlit)
+## 3️⃣ Install Dependencies
 
-**🚀 Future Improvements**
+```
+pip install -r requirements.txt
+```
 
-Add citation linking in UI
+## 4️⃣ Add Environment Variables
 
-Add memory between sessions
+Create `.env` file:
 
-Add PDF export of research reports
+```
+GROQ_API_KEY=your_api_key_here
+```
 
-Add cost/token tracking dashboard
+---
 
-**👩‍💻 Author**
+# 🌐 Deployment
 
-Saniya Afzali
+The app is deployed using Streamlit Cloud.
+
+Deployment Steps:
+
+1. Push code to GitHub
+2. Connect repository to Streamlit Cloud
+3. Add API key in Secrets
+4. Deploy
+
+---
+
+# 📊 Key Features
+
+✔ Multi-agent reasoning  
+✔ Iterative refinement loop  
+✔ Automatic quality control  
+✔ Structured final reports  
+✔ Confidence scoring system  
+✔ Clean Streamlit UI  
+✔ GitHub ready project structure  
+
+---
+
+# 🧠 Why This Project Is Strong
+
+- Demonstrates agentic AI architecture
+- Shows loop control and bounded reasoning
+- Uses LangGraph professionally
+- Handles rate limits and failures
+- Includes architectural documentation
+- Production-ready structure
+
+---
+
+# 🔮 Future Improvements
+
+- Web search integration (RAG)
+- Citation tracking
+- Multi-model fallback support
+- Persistent memory
+- PDF export
+- Async streaming responses
+
+---
+
+# 👩‍💻 Author
+
+**Saniya Afzali**
+
+
+
+# ⭐ Final Note
+
+This project demonstrates how autonomous AI agents can collaborate in structured workflows to produce high-quality research outputs with built-in critique and reliability estimation.
