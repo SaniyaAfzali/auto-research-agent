@@ -1,5 +1,5 @@
-                                                       ** 🔎 AutoResearch Agent  
-                                Autonomous Multi-Step AI Research System using LangGraph + Groq + Streamlit**
+                                                        **🔎 AutoResearch Agent  **
+                               ** Autonomous Multi-Step AI Research System using LangGraph + Groq + Streamlit**
 **Live Demo**
 
 Deployed App:
